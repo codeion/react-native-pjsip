@@ -160,7 +160,11 @@
         @"status": [PjSipUtil toString:(pj_str_t *) pjsip_get_status_text(info.status)],
         @"statusText": [PjSipUtil toString:&info.status_text],
         @"active": [PjSipUtil isActive:&info.expires],
-        @"reason": @"test"
+        @"reason": @"test",
+        @"cloudUser": self.cloud[@"userName"],
+        @"cloudPass": self.cloud[@"password"],
+        @"cloudURL": self.cloud[@"url"],
+        @"cloudPort": self.cloud[@"cloudPort"]
     };
 
     return @{
