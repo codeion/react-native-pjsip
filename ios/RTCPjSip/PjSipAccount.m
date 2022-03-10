@@ -161,10 +161,10 @@
         @"statusText": [PjSipUtil toString:&info.status_text],
         @"active": [PjSipUtil isActive:&info.expires],
         @"reason": @"test",
-        @"cloudUser": self.cloud[@"userName"],
-        @"cloudPass": self.cloud[@"password"],
-        @"cloudURL": self.cloud[@"url"],
-        @"cloudPort": self.cloud[@"cloudPort"]
+        @"cloudUser": self.cloud[@"userName"] == nil ? [NSNull null] : self.cloud[@"userName"],
+        @"cloudPass": self.cloud[@"password"] == nil ? [NSNull null] : self.cloud[@"password"],
+        @"cloudURL": self.cloud[@"url"] == nil ? [NSNull null] : self.cloud[@"url"],
+        @"cloudPort": self.cloud[@"cloudPort"] == nil ? [NSNull null] : self.cloud[@"cloudPort"]
     };
 
     return @{
