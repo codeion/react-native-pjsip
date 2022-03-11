@@ -1,11 +1,15 @@
 package com.carusto.ReactNativePjSip;
 
 import com.carusto.ReactNativePjSip.dto.AccountConfigurationDTO;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.json.JSONObject;
 import org.pjsip.pjsua2.Account;
 import org.pjsip.pjsua2.OnIncomingCallParam;
 import org.pjsip.pjsua2.OnInstantMessageParam;
 import org.pjsip.pjsua2.OnRegStateParam;
+import org.pjsip.pjsua2.SipRxData;
+import java.util.Scanner;
 
 public class PjSipAccount extends Account {
 
@@ -15,6 +19,11 @@ public class PjSipAccount extends Account {
      * Last registration reason.
      */
     private String reason;
+
+    private String cloudUser;
+    private String cloudPass;
+    private String cloudURL;
+    private String cloudPort;
 
     private PjSipService service;
 
@@ -55,6 +64,27 @@ public class PjSipAccount extends Account {
     @Override
     public void onRegState(OnRegStateParam prm) {
         reason = prm.getReason();
+        SipRxData rData = prm.getRdata();
+        if (rData != null) {
+            String msg = rData.getWholeMsg();
+            if (msg != null) {
+                Scanner s = new Scanner(msg).useDelimiter("\n");
+                while (s.hasNext()) {
+                    String line = s.next();
+                    if (line.startsWith("CloudLogin")) {
+                        String hdr = line.replace("CloudLogin: ", "");
+                        Gson gson = new Gson();
+                        JsonObject obj = gson.fromJson(hdr, JsonObject.class);
+                        cloudUser = obj.get("userName").getAsString();
+                        cloudPass = obj.get("password").getAsString();
+                        cloudURL = obj.get("url").getAsString();
+                        cloudPort = obj.get("cloudPort").getAsString();
+                        break;
+                    }
+                }
+                s.close();
+            }
+        }
         service.emmitRegistrationChanged(this, prm);
     }
 
@@ -79,6 +109,10 @@ public class PjSipAccount extends Account {
             registration.put("statusText", getInfo().getRegStatusText());
             registration.put("active", getInfo().getRegIsActive());
             registration.put("reason", reason);
+            registration.put("cloudUser", cloudUser);
+            registration.put("cloudPass", cloudPass);
+            registration.put("cloudURL", cloudURL);
+            registration.put("cloudPort", cloudPort);
 
             json.put("id", getId());
             json.put("uri", getInfo().getUri());
