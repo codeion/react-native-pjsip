@@ -384,13 +384,16 @@ static void onRegStateChanged(pjsua_acc_id accId, pjsua_reg_info *info) {
     PjSipAccount* account = [endpoint findAccount:accId];
 
     pj_str_t name = pj_str("CloudLogin");
-    pjsip_generic_string_hdr *hdr = pjsip_msg_find_hdr_by_name(info->cbparam->rdata->msg_info.msg, &name, NULL);
+    pjsip_rx_data *rxdata = info->cbparam->rdata;
 
-    if (hdr != NULL) {
-        NSString *value = [PjSipUtil toString:&hdr->hvalue];
-        NSError *jsonError;
-        NSData *objData = [value dataUsingEncoding:NSUTF8StringEncoding];
-        account.cloud = [NSJSONSerialization JSONObjectWithData:objData options:NSJSONReadingMutableContainers error:&jsonError];
+    if (rxdata != NULL) {
+        pjsip_generic_string_hdr *hdr = pjsip_msg_find_hdr_by_name(rxdata->msg_info.msg, &name, NULL);
+        if (hdr != NULL) {
+            NSString *value = [PjSipUtil toString:&hdr->hvalue];
+            NSError *jsonError;
+            NSData *objData = [value dataUsingEncoding:NSUTF8StringEncoding];
+            account.cloud = [NSJSONSerialization JSONObjectWithData:objData options:NSJSONReadingMutableContainers error:&jsonError];
+        }
     }
 
     if (account) {
