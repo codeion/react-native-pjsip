@@ -751,7 +751,7 @@ public class PjSipService extends Service {
 
         int idx = -1;
         for (int i = 0; i < mAccountsCfg.size(); i++) {
-            if (mAccountsCfg.get(i).getIdUri() == idUri) {
+            if (mAccountsCfg.get(i).getIdUri().equals(idUri)) {
                 idx = i;
                 break;
             }
