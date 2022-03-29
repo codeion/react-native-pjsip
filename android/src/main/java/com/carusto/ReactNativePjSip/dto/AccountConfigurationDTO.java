@@ -138,6 +138,7 @@ public class AccountConfigurationDTO {
             json.put("name", getName());
             json.put("username", getUsername());
             json.put("domain", getDomain());
+            json.put("transport", getTransport());
             json.put("contactParams", getContactParams());
             json.put("registration", registration);
             return json;
