@@ -376,9 +376,10 @@ public class PjSipService extends Service {
     @Override
     public void onDestroy() {
         // Kill all active accounts
-        for (PjSipAccount a : mAccounts) {
-            evict(a);
-        }
+//         for (PjSipAccount a : mAccounts) {
+//             evict(a);
+//         }
+        evictAccounts();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             mWorkerThread.quitSafely();
@@ -431,6 +432,24 @@ public class PjSipService extends Service {
 
         // Remove account in PjSip
         account.delete();
+    }
+
+    public void evictAccounts() {
+        if (mHandler.getLooper().getThread() != Thread.currentThread()) {
+            job(new Runnable() {
+                @Override
+                public void run() {
+                    evictAccounts();
+                }
+            });
+            return;
+        }
+        ListIterator<PjSipAccount> iterator = mAccounts.listIterator();
+        while (iterator.hasNext()) {
+            PjSipAccount acc = iterator.next();
+            acc.delete();
+            iterator.remove();
+        }
     }
 
     public void evict(final PjSipCall call) {
