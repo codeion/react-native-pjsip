@@ -325,7 +325,7 @@ public class PjSipService extends Service {
                 mWifiLock.setReferenceCounted(false);
                 mTelephonyManager = (TelephonyManager) getApplicationContext()
                         .getSystemService(Context.TELEPHONY_SERVICE);
-                mGSMIdle = mTelephonyManager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+//                 mGSMIdle = mTelephonyManager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 
                 IntentFilter phoneStateFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
                 registerReceiver(mPhoneStateChangedReceiver, phoneStateFilter);
