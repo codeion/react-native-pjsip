@@ -159,20 +159,8 @@ public class AccountConfigurationDTO {
         c.contactUriParams = intent.getStringExtra("contactUriParams");
 
         c.regServer = intent.getStringExtra("regServer");
-        c.regTimeout = 600;
+        c.regTimeout = intent.getIntExtra("regTimeout", 300);
         c.regOnAdd = intent.getBooleanExtra("regOnAdd", true);
-
-        if (intent.hasExtra("regTimeout")) {
-            String regTimeout = intent.getStringExtra("regTimeout");
-
-            if (regTimeout != null && !regTimeout.isEmpty()) {
-                int timeout = Integer.parseInt(regTimeout);
-                if (timeout > 0) {
-                    c.regTimeout = timeout;
-                }
-            }
-        }
-
         c.regContactParams = intent.getStringExtra("regContactParams");
 
         if (intent.hasExtra("regHeaders")) {

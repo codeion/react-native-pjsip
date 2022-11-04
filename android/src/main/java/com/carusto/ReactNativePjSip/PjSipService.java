@@ -703,6 +703,10 @@ public class PjSipService extends Service {
 
         // Registration settings
 
+        if (configuration.getRegTimeout() != null && configuration.getRegTimeout() > 0) {
+            cfg.getRegConfig().setTimeoutSec(configuration.getRegTimeout());
+        }
+
         if (configuration.getContactParams() != null) {
             cfg.getSipConfig().setContactParams(configuration.getContactParams());
         }
