@@ -705,6 +705,7 @@ public class PjSipService extends Service {
 
         if (configuration.getRegTimeout() != null && configuration.getRegTimeout() > 0) {
             cfg.getRegConfig().setTimeoutSec(configuration.getRegTimeout());
+            cfg.getRegConfig().setRetryIntervalSec(configuration.getRegTimeout());
         }
 
         if (configuration.getContactParams() != null) {

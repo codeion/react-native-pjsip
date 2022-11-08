@@ -92,6 +92,7 @@
 
             if (self.regTimeout != nil && ![self.regTimeout isKindOfClass:[NSNull class]]) {
                 cfg.reg_timeout = (unsigned) [self.regTimeout intValue];
+                cfg.reg_retry_interval = (unsigned) [self.regTimeout intValue];
             }
 
             cfg.register_on_acc_add = self.regOnAdd;
