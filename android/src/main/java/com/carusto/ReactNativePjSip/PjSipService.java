@@ -1198,6 +1198,13 @@ public class PjSipService extends Service {
 **/
         // -----
         mCalls.add(call);
+        try {
+            CallOpParam prm = new CallOpParam();
+            prm.setStatusCode(pjsip_status_code.PJSIP_SC_RINGING);
+            call.answer(prm);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to answer with status code PJSIP_SC_RINGING", e);
+        }
         mEmitter.fireCallReceivedEvent(call);
     }
 
