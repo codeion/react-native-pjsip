@@ -92,6 +92,11 @@
         }
     }
 
+    // Starting from iOS 16, using VoIP socket (or kCFStreamNetworkServiceTypeVoIP) will cause app getting crashed or killed
+    {
+        pj_activesock_enable_iphone_os_bg(PJ_FALSE);
+    }
+
     // Add UDP transport.
     {
         // Init transport config structure
