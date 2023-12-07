@@ -1105,15 +1105,10 @@ public class PjSipService extends Service {
             // -----
             if (codecSettings != null) {
                 for (String key : codecSettings.keySet()) {
-
-                    if (!key.equals("callback_id")) {
-
+                    if (!key.equals("callback_id") && !key.equals("digits")) {
                         short priority = (short) codecSettings.getInt(key);
-
                         mEndpoint.codecSetPriority(key, priority);
-
                     }
-
                 }
             }
 
