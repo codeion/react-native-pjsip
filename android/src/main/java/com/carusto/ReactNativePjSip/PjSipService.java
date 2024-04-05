@@ -151,7 +151,7 @@ public class PjSipService extends Service {
     }
 
     public void onTaskRemoved(Intent rootIntent) {
-        mSharedPreferences.edit().putBoolean("isAppForeground", false).commit();
+        // mSharedPreferences.edit().putBoolean("isAppForeground", false).commit();
     }
 
     @Override
@@ -331,7 +331,8 @@ public class PjSipService extends Service {
                 registerReceiver(mPhoneStateChangedReceiver, phoneStateFilter);
 
                 mInitialized = true;
-                mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String mSharedPreferencesName = getPackageName() + "_preferences";
+                mSharedPreferences = getApplicationContext().getSharedPreferences(mSharedPreferencesName, Context.MODE_PRIVATE);
 
                 String jsonAccountsCfg = mSharedPreferences.getString(ACCOUNTS, "");
                 if (jsonAccountsCfg.isEmpty() || jsonAccountsCfg.equals("[]")) {
